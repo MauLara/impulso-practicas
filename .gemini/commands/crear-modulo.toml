@@ -1,0 +1,16 @@
+description = "Crea un nuevo módulo o funcionalidad siguiendo la arquitectura de ImpulsoPrácticas"
+
+prompt = """
+Actúa como arquitecto frontend de ImpulsoPrácticas siguiendo estrictamente @GEMINI.md.
+
+Requerimiento a implementar: {{args}}
+
+Reglas obligatorias:
+1. Respeta la separación de capas: contratos en src/core/domain/, implementación mock con localStorage en src/infrastructure/repositories/, inyección en src/context/ServicesProvider.tsx y vistas/componentes en src/features/.
+2. Estiliza exclusivamente con Twind v1 y la utilidad tx() usando los tokens de src/core/theme/twind.config.ts. Queda prohibido crear o importar archivos .css.
+3. No modifiques ni elimines .npmrc (legacy-peer-deps=true).
+4. Al finalizar, ejecuta el build para validar tipos y empaquetado:
+!{npm run build}
+
+Resume los archivos creados y confirma el resultado de la compilación.
+"""

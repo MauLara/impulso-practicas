@@ -20,6 +20,11 @@ const CompaniesDirectoryView = lazy(() =>
     default: m.CompaniesDirectoryView,
   }))
 );
+const ComoFuncionaView = lazy(() =>
+  import('../../features/home/views/ComoFuncionaView').then((m) => ({
+    default: m.ComoFuncionaView,
+  }))
+);
 const MisPostulacionesView = lazy(() =>
   import('../../features/applications/views/MisPostulacionesView').then((m) => ({
     default: m.MisPostulacionesView,
@@ -45,6 +50,7 @@ export const AppRouter: React.FC = () => {
             <Route path="/practicas" element={<VacanciesExplorationView />} />
             <Route path="/practicas/:slug" element={<VacancyDetailView />} />
             <Route path="/empresas" element={<CompaniesDirectoryView />} />
+            <Route path="/como-funciona" element={<ComoFuncionaView />} />
             <Route path="/mis-postulaciones" element={<MisPostulacionesView />} />
             <Route path="*" element={<NotFoundView />} />
           </Route>

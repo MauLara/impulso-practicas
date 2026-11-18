@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { Link, NavLink, useLocation } from 'react-router-dom';
-import { Briefcase, Building2, Home, GraduationCap, ClipboardList } from 'lucide-react';
+import { Briefcase, Building2, Home, GraduationCap, ClipboardList, HelpCircle } from 'lucide-react';
 import { useServices } from '../../core/services/useServices';
 
 export const Navbar: React.FC = () => {
@@ -46,6 +46,10 @@ export const Navbar: React.FC = () => {
           <NavLink to="/empresas" className={getLinkClass}>
             <Building2 className="w-4 h-4" />
             Empresas
+          </NavLink>
+          <NavLink to="/como-funciona" className={getLinkClass}>
+            <HelpCircle className="w-4 h-4" />
+            Cómo funciona
           </NavLink>
           <NavLink to="/mis-postulaciones" className={getLinkClass}>
             <ClipboardList className="w-4 h-4" />
