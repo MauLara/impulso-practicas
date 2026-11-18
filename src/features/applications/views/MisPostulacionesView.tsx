@@ -2,10 +2,12 @@ import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { Briefcase, Building2, Calendar, MapPin, DollarSign, Trash2, ArrowRight, CheckCircle2, Clock, AlertCircle } from 'lucide-react';
 import { useServices } from '../../../core/services/useServices';
+import { useToast } from '../../../context/ToastContext';
 import { Application } from '../types/application.types';
 
 export const MisPostulacionesView: React.FC = () => {
   const { applicationRepository } = useServices();
+  const { info } = useToast();
   const [applications, setApplications] = useState<Application[]>([]);
   const [loading, setLoading] = useState(true);
 
@@ -24,6 +26,7 @@ export const MisPostulacionesView: React.FC = () => {
     if (window.confirm(`¿Estás seguro de que deseas retirar tu postulación a "${title}"?`)) {
       applicationRepository.withdraw(id).then(() => {
         fetchApplications();
+        info('Postulación retirada correctamente');
       });
     }
   };

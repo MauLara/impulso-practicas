@@ -2,11 +2,13 @@ import React, { useEffect, useState } from 'react';
 import { MapPin, Globe, CheckCircle2, Briefcase, Plus, X, ArrowRight } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import { useServices } from '../../../../core/services/useServices';
+import { useToast } from '../../../../context/ToastContext';
 import { Company } from '../../types/company.types';
 import { Vacancy } from '../../../vacancies/types/vacancy.types';
 
 export const CompaniesDirectoryView: React.FC = () => {
   const { companyRepository, vacancyRepository } = useServices();
+  const { success } = useToast();
   const [companies, setCompanies] = useState<Company[]>([]);
   const [loading, setLoading] = useState(true);
   const [showModal, setShowModal] = useState(false);
@@ -68,6 +70,7 @@ export const CompaniesDirectoryView: React.FC = () => {
       })
       .then((newVacancy) => {
         setCreatedVacancy(newVacancy);
+        success('¡Práctica profesional publicada con éxito!');
       })
       .finally(() => {
         setSubmitting(false);

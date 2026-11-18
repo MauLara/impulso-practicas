@@ -2,11 +2,13 @@ import React, { useEffect, useState } from 'react';
 import { useParams, Link, useNavigate } from 'react-router-dom';
 import { ArrowLeft, MapPin, Briefcase, Calendar, DollarSign, CheckCircle2, Send, Building2 } from 'lucide-react';
 import { useServices } from '../../../../core/services/useServices';
+import { useToast } from '../../../../context/ToastContext';
 import { Vacancy } from '../../types/vacancy.types';
 
 export const VacancyDetailView: React.FC = () => {
   const { slug } = useParams<{ slug: string }>();
   const { vacancyRepository, applicationRepository } = useServices();
+  const { success } = useToast();
   const [vacancy, setVacancy] = useState<Vacancy | null>(null);
   const [loading, setLoading] = useState(true);
   const [applied, setApplied] = useState(false);
@@ -45,6 +47,7 @@ export const VacancyDetailView: React.FC = () => {
       },
     }).then(() => {
       setApplied(true);
+      success('¡Postulación enviada con éxito!');
     });
   };
 
