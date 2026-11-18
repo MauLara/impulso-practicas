@@ -1,6 +1,8 @@
 # ImpulsoPrácticas - Guía y Arquitectura del Proyecto
 
 Este archivo (`GEMINI.md`) define la arquitectura, reglas de estilizado y convenciones obligatorias para el desarrollo de la plataforma web de vinculación y asesoría de prácticas profesionales **ImpulsoPrácticas**.
+El archivo con extensión .npmrc con legacy-peer-deps=true es obligatorio para twind/coe por lo que nunca de ser borrado o elimiando 
+
 
 ---
 

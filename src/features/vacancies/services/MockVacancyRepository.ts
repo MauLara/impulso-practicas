@@ -1,6 +1,8 @@
 import { IVacancyRepository } from './IVacancyRepository';
 import { Vacancy } from '../types/vacancy.types';
 
+const STORAGE_KEY = 'impulsopracticas_custom_vacancies';
+
 const MOCK_VACANCIES: Vacancy[] = [
   {
     id: '1',
@@ -99,17 +101,36 @@ const MOCK_VACANCIES: Vacancy[] = [
 ];
 
 export class MockVacancyRepository implements IVacancyRepository {
+  private getStoredVacancies(): Vacancy[] {
+    try {
+      const data = localStorage.getItem(STORAGE_KEY);
+      return data ? JSON.parse(data) : [];
+    } catch {
+      return [];
+    }
+  }
+
+  private saveStoredVacancies(vacancies: Vacancy[]): void {
+    try {
+      localStorage.setItem(STORAGE_KEY, JSON.stringify(vacancies));
+    } catch {
+      // ignore
+    }
+  }
+
   async getAll(): Promise<Vacancy[]> {
-    return MOCK_VACANCIES;
+    const custom = this.getStoredVacancies();
+    return [...custom, ...MOCK_VACANCIES];
   }
 
   async getBySlug(slug: string): Promise<Vacancy | null> {
-    const vacancy = MOCK_VACANCIES.find((v) => v.slug === slug);
+    const all = await this.getAll();
+    const vacancy = all.find((v) => v.slug === slug);
     return vacancy || null;
   }
 
   async search(query: string, category?: string, modality?: string): Promise<Vacancy[]> {
-    let results = MOCK_VACANCIES;
+    let results = await this.getAll();
     if (query) {
       const q = query.toLowerCase();
       results = results.filter(
@@ -126,5 +147,27 @@ export class MockVacancyRepository implements IVacancyRepository {
       results = results.filter((v) => v.modality === modality);
     }
     return results;
+  }
+
+  async createVacancy(data: Omit<Vacancy, 'id' | 'slug' | 'postedDate'>): Promise<Vacancy> {
+    const custom = this.getStoredVacancies();
+    const slugBase = data.title
+      .toLowerCase()
+      .normalize('NFD')
+      .replace(/[\u0300-\u036f]/g, '')
+      .replace(/[^a-z0-9]+/g, '-')
+      .replace(/(^-|-$)+/g, '');
+    const slug = `${slugBase}-${Date.now()}`;
+
+    const newVacancy: Vacancy = {
+      ...data,
+      id: `vac-${Date.now()}`,
+      slug,
+      postedDate: 'Justo ahora',
+    };
+
+    custom.unshift(newVacancy);
+    this.saveStoredVacancies(custom);
+    return newVacancy;
   }
 }
